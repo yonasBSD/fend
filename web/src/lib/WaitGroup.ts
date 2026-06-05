@@ -61,6 +61,7 @@ async function abortPromise<T>(abortSignal: AbortSignal, promise: Promise<T>) {
 			},
 			(error: unknown) => {
 				cleanup();
+				// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
 				reject(error as Error);
 			},
 		);

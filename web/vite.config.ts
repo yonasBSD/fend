@@ -1,9 +1,8 @@
 import { resolve } from 'node:path';
-import react from '@vitejs/plugin-react';
+import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import wasm from 'vite-plugin-wasm';
+import babel from '@rolldown/plugin-babel';
 import { defineConfig, searchForWorkspaceRoot } from 'vite';
-
-const ReactCompilerConfig = {};
 
 export default defineConfig({
 	base: '/fend/',
@@ -25,10 +24,9 @@ export default defineConfig({
 	},
 	plugins: [
 		wasm(),
-		react({
-			babel: {
-				plugins: [['babel-plugin-react-compiler', ReactCompilerConfig]],
-			},
+		react(),
+		babel({
+			presets: [reactCompilerPreset()],
 		}),
 	],
 	server: {

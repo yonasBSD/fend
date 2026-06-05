@@ -1,4 +1,4 @@
-import { FormEvent, startTransition, useCallback, useState } from 'react';
+import { InputEvent, startTransition, useCallback, useState } from 'react';
 import { useHistory } from './useHistory';
 
 export function useCurrentInput(evaluateHint: (input: string) => Promise<string>) {
@@ -42,7 +42,7 @@ export function useCurrentInput(evaluateHint: (input: string) => Promise<string>
 	);
 
 	const onInput = useCallback(
-		(e: string | FormEvent<HTMLTextAreaElement>) => {
+		(e: string | InputEvent<HTMLTextAreaElement>) => {
 			setNavigation(0);
 			setCurrentInput(typeof e === 'string' ? e : e.currentTarget.value);
 		},
