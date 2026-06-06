@@ -12,7 +12,10 @@ cargo metadata --format-version 1 --no-deps \
 		IFS=" " read -r -a words <<< "$line" # https://www.shellcheck.net/wiki/SC2206
 		dep=${words[0]}
 		current_version=${words[1]}
-		latest_version="$(curl -sL "https://crates.io/api/v1/crates/$dep" | jq -r .crate.max_stable_version)"
+		if [[ "$current_version" == "*" ]]; then
+			continue
+		fi
+		latest_version="$(curl -sL https://index.crates.io/$(echo $dep | grep -o '^..')/$(echo $dep | sed 's/^..//' | grep -o '^..')/$dep | jq -rs '.[] | select(.yanked | not) | .vers' | sort -rV | head -1)"
 		if [[ "$current_version" != "$latest_version" ]]
 		then
 			echo "Update available for $dep: $current_version -> $latest_version"
